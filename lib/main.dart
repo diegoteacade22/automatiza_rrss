@@ -416,7 +416,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   final _contentController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   
-  List<String> _selectedPlatforms = [];
+  final List<String> _selectedPlatforms = [];
   DateTime _scheduledDate = DateTime.now().add(const Duration(days: 1));
   bool _isLoading = false;
 
@@ -442,14 +442,16 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
 
-    if (picked != null) {
-      final TimeOfDay? time = await showTimePicker(
+    if (!mounted || picked == null) return;
+
+    final TimeOfDay? time = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.fromDateTime(_scheduledDate),
-      );
+    );
 
-      if (time != null) {
-        setState(() {
+    if (!mounted || time == null) return;
+
+    setState(() {
           _scheduledDate = DateTime(
             picked.year,
             picked.month,
@@ -457,9 +459,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             time.hour,
             time.minute,
           );
-        });
-      }
-    }
+    });
   }
 
   Future<void> _saveAsDraft() async {
