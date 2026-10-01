@@ -61,13 +61,13 @@ class ImagePickerService {
 
   static Future<File?> pickMultipleImages() async {
     try {
-      final List<XFile>? pickedFiles = await _picker.pickMultiImage(
+      final List<XFile> pickedFiles = await _picker.pickMultiImage(
         maxWidth: 1920,
         maxHeight: 1080,
         imageQuality: 85,
       );
 
-      if (pickedFiles != null && pickedFiles.isNotEmpty) {
+      if (pickedFiles.isNotEmpty) {
         // Return the first image for now, can be extended to handle multiple
         return File(pickedFiles.first.path);
       }
@@ -89,13 +89,13 @@ class ImagePickerService {
 
   static Future<List<File>?> pickAndCropMultipleImages() async {
     try {
-      final List<XFile>? pickedFiles = await _picker.pickMultiImage(
+      final List<XFile> pickedFiles = await _picker.pickMultiImage(
         maxWidth: 1920,
         maxHeight: 1080,
         imageQuality: 85,
       );
 
-      if (pickedFiles != null && pickedFiles.isNotEmpty) {
+      if (pickedFiles.isNotEmpty) {
         List<File> images = [];
         
         for (var file in pickedFiles) {
